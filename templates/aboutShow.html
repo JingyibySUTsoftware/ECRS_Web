@@ -1,0 +1,84 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>关于</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='layui/css/layui.css') }}">
+<script type="text/javascript" src="{{url_for('static', filename='js/jquery-3.3.1.min.js')}}"></script>
+</head>
+<body>
+    <fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
+        <legend>功能说明</legend>
+	</fieldset>
+    <div class="layui-tab">
+        <ul class="layui-tab-title">
+            <li class="layui-this">用户服务</span></li>
+            <li>内容服务</span></li>
+            <li>召回服务</span></li>
+            <li>排序服务</span></li>
+            <li>全流程应用服务<span class="layui-badge-dot"></span></li>
+        </ul>
+        <div class="layui-tab-content">
+            <div class="layui-tab-item layui-show">
+                <span class="layui-badge layui-bg-green">UserModelServer</span>
+                <blockquote class="layui-elem-quote">输入: 用户id </blockquote>
+                <blockquote class="layui-elem-quote">描述: 该服务用于查询用户信息，您可以通过输入一名用户的id通过该服务查找该用户的完整信息，包括id、年龄、性别、所在城市等级、所在的省、市、区/县</blockquote>
+                <blockquote class="layui-elem-quote">通信端口：8910</blockquote>
+            </div>
+            <div class="layui-tab-item">
+                <span class="layui-badge layui-bg-green">ContentModelServer</span>
+                <blockquote class="layui-elem-quote">输入: 商品id</blockquote>
+                <blockquote class="layui-elem-quote">描述: 该服务用于查询指定商品信息，您可以输入一个或者多个商品id通过该服务查找对应商品的完整信息,包括id、品牌、店铺id、所属品类</blockquote>
+                <blockquote class="layui-elem-quote">通信端口：8920</blockquote>
+            </div>
+            <div class="layui-tab-item">
+                <span class="layui-badge layui-bg-green">RecallServer</span>
+                <blockquote class="layui-elem-quote">输入: 用户id</blockquote>
+                <blockquote class="layui-elem-quote">描述: 该服务根据您指定的用户去召回排分前top_k(默认为100个)的商品id列表，显示每一个商品的id和预估分值</blockquote>
+                <blockquote class="layui-elem-quote">通信端口：8950</blockquote>
+            </div>
+            <div class="layui-tab-item">
+                <span class="layui-badge layui-bg-green">RankServer</span>
+                <blockquote class="layui-elem-quote">输入:无需输入</blockquote>
+                <blockquote class="layui-elem-quote">描述: 该服务将候选集商品与该用户进行更精准的打分。该服务需要依赖其他服务模块，如单独执行则使用默认参数执行排序打分任务</blockquote>
+                <blockquote class="layui-elem-quote">通信端口：8960</blockquote>
+            </div>
+            <div class="layui-tab-item">
+                <span class="layui-badge layui-bg-green">ApplicationServer</span>
+                <blockquote class="layui-elem-quote">输入:如果是老用户仅需要输入用户id，如果为新用户则需要输入该用户完整信息</blockquote>
+                <blockquote class="layui-elem-quote">描述:该服务通过用户服务查询对应的用户信息，如果为新用户则不通过该服务，而是通过召回服务中直接产生用户特征向量，然后与商品特征列表作特征相似特征搜索，召回商品候选集，然后与用户特征向量结合在特征服务中排序打分，在内容服务查询待推荐的商品列表的详细信息返回 </blockquote>
+                <blockquote class="layui-elem-quote">通信端口：8930</blockquote>
+            </div>
+        </div>
+    </div>
+    <fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
+        <legend>致谢</legend>
+	</fieldset>
+    <div class="layui-carousel" id="test1">
+        <div carousel-item>
+            <div><img src="{{url_for('static', filename = 'images/1.png')}}"></div>
+            <div><img src="{{url_for('static', filename = 'images/4.png')}}"></div>
+            <div><img src="{{url_for('static', filename = 'images/2.png')}}"></div>
+            <div><img src="{{url_for('static', filename = 'images/3.jpg')}}"></div>
+        </div>
+    </div>
+
+</body>
+</html>
+<script src="{{ url_for('static', filename = 'layui/layui.js') }}" charset="utf-8"></script>
+<script>
+layui.use('carousel', function(){
+  var carousel = layui.carousel;
+  //建造实例
+  carousel.render({
+    elem: '#test1'
+    ,height:'300px'
+    ,width: '1300px' //设置容器宽度
+    ,arrow: 'hover' //始终显示箭头
+    ,anim: 'fade' //切换动画方式
+    ,interval:2000
+    ,indicator:'none'
+  });
+});
+</script>
+

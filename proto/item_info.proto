@@ -1,0 +1,10 @@
+syntax = "proto3";
+package item_info;
+
+message ItemInfo {
+    string sku_id = 1;
+    string brand = 2;
+    string shopid = 3;
+	string cate = 4;
+	float rank_score = 5;
+}
