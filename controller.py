@@ -38,7 +38,7 @@ def login():
 def afterlogin():
     user = req.form['username']
     #index.html仅适配PC端,newindex.html适配移动端+PC端，开发者可以自行替换体验
-    return render_template('index.html',username=user)
+    return render_template('newindex.html',username=user)
 
 #引导页
 @app.route('/toStart')

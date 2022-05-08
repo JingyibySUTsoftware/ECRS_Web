@@ -81,8 +81,16 @@
             </li>
         </ul>
       </div>
-    <iframe frameborder="0" scrolling="yes" style="width: 100%" src="" id="aa">
+    <iframe frameborder="0" scrolling="yes" src="" id="aa">
     </iframe>
+    <div class="layui-footer">
+        <!-- 底部固定区域 -->
+        <p style="padding: 1% 10%;">
+            Copyright&nbsp;©&nbsp;2022  E-Commerce Recommendation System 
+            <a href="http://52684z0q57.zicp.vip">ecrs.com</a>
+            Apache2.0  Licensed  
+        </p>
+    </div>
     <!--div class="layui-fluid">
       <div class="layui-row layui-col-space15">
         <div class="layui-col-md12">
@@ -265,8 +273,10 @@
         $("iframe").attr("src",address);
         var frame = $("#aa");
         var frameheight = $(window).height();
+        var framewidth = $(window).width();
         console.log(frameheight);
         frame.css("height",frameheight);
+        frame.css("width",framewidth);
     });
     $(document).ready(function(){
         $("iframe").attr("src","/toStart");
