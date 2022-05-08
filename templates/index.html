@@ -42,6 +42,9 @@
         <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
         <ul class="layui-nav layui-nav-tree" lay-filter="test">
             <li class="layui-nav-item">
+                <a id="nav0" class="single" data-src="/toStart"><i class="layui-icon layui-icon-layer">&nbsp;&nbsp;</i><cite>引导</cite></a>
+            </li>
+            <li class="layui-nav-item">
                 <a  id="nav1" class="single" data-src="/toAS"><i class="layui-icon layui-icon-engine">&nbsp;&nbsp;</i><cite>AS全流程应用服务</cite></a>
             </li>
             <li class="layui-nav-item">
@@ -179,6 +182,9 @@
             ,shadeClose: true
         });
         }
+    });
+    $(document).ready(function(){
+        $('#nav0').click();
     });
 });
 </script>

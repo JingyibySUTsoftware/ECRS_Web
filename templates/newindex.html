@@ -8,13 +8,16 @@
   <link rel="stylesheet" href="{{ url_for('static', filename='css/common.css') }}" media="all">
 </head>
 <style type="text/css" id="LAY_layadmin_theme"></style>
-<body>
+<body>  
 <div id="LAY_WRAP">
   <div id='LAY_app' class="layui-side layui-bg-black">
       <div class="layui-side-scroll">
           <div class="layui-logo" lay-href=""> <span>开发者体验客户端</span> </div>
           <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
           <ul class="layui-nav layui-nav-left layui-nav-tree" lay-filter="layui-nav-left">
+            <li class="layui-nav-item">
+                <a data-src="/toStart"><i class="layui-icon layui-icon-layer">&nbsp;&nbsp;</i><cite>引导</cite></a>
+            </li>
             <li class="layui-nav-item">
                 <a data-src="/toAS"><i class="layui-icon layui-icon-engine">&nbsp;&nbsp;</i><cite>AS全流程应用服务</cite></a>
             </li>
@@ -264,6 +267,9 @@
         var frameheight = $(window).height();
         console.log(frameheight);
         frame.css("height",frameheight);
+    });
+    $(document).ready(function(){
+        $("iframe").attr("src","/toStart");
     });
 </script>
 </html>

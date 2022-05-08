@@ -1,10 +1,10 @@
+from gevent.pywsgi import WSGIServer
 from contextlib import nullcontext
 from mimetypes import init
 from optparse import Values
 import sys
 from unittest import result
 from urllib import response
-from wsgiref.simple_server import WSGIServer
 
 from requests import request
 import grpc
@@ -25,8 +25,6 @@ from flask import Flask, redirect, url_for, render_template
 from flask import request as req
 app = Flask(__name__)
 from client import get_cm,get_ums,get_recall,get_as,get_rank
-from gevent.pywsgi import WSGIServer
-
 
 #默认起始页为登录页
 @app.route('/')
@@ -38,7 +36,7 @@ def login():
 def afterlogin():
     user = req.form['username']
     #index.html仅适配PC端,newindex.html适配移动端+PC端，开发者可以自行替换体验
-    return render_template('index.html',username=user)
+    return render_template('newindex.html',username=user)
 
 #引导页
 @app.route('/toStart')
@@ -275,6 +273,6 @@ def pb2dict(obj):
 
 if __name__ == '__main__':
     #gevent实现python异步协程
-    WSGIServer(('127.0.0.1', 5000), app).serve_forever()
-    #app.run()
+    WSGIServer(('127.0.0.1', 5001), app).serve_forever()
+    #app.run(port=5001)
     
