@@ -59,7 +59,7 @@ def error_date():
 def toUmService():
     init_list = ['无', '无', '无', '无', '无', '无', '无']
     init_uid=0
-    init_time=0
+    init_time='无'
     init_originData=0
     init_code=100
     return render_template('umShow.html', result=init_list, uid=init_uid, costTime=init_time, originData=init_originData, stateCode=init_code)
@@ -79,7 +79,7 @@ def umService():
     values=list(dict.values())
     cost = str(end-start)
     if cost!="" and values!="":
-        return render_template('umShow.html',uid=searchid,result=values,costTime=cost,originData=response,stateCode=statedict['code'])
+        return render_template('umShow.html',uid=searchid,result=values,costTime=cost+'s',originData=response,stateCode=statedict['code'])
     else:
         return redirect(url_for('error'))
 

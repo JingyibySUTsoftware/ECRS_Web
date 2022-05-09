@@ -7,65 +7,80 @@
 <script type="text/javascript" src="{{url_for('static', filename='js/jquery-3.3.1.min.js')}}"></script>
 </head>
 <body>
-    <hr class="layui-border-black">
-    <form class="layui-form layui-form-pane" action="/umServer" method="get">
-        <div class="layui-form-item">
-            <div class="layui-inline">
-                <label class="layui-form-label">用户ID</label>
-                <div class="layui-input-inline" style="width: 260px;">
-                    {% if uid==0 %} 
-                        <input type="text"  name="ToSearchUid" required lay-verify="required" placeholder="请输入要查找的用户id(1-1373351)" autocomplete="off" class="layui-input">
-                    {% else %}
-                        <input type="text"  value={{uid}}  name="ToSearchUid" required lay-verify="required" placeholder="请输入要查找的用户id(1-1373351)" autocomplete="off" class="layui-input">
-                    {% endif %}
+    <div class="layui-card">
+        <div class="layui-card-header"></div>
+        <div class="layui-card-body">
+            <form class="layui-form layui-form-pane" action="/umServer" method="get">
+                <div class="layui-form-item">
+                    <label class="layui-form-label">时间戳</label>
+                    <div class="layui-input-inline" style="width: 150px;">
+                        <input type="text" id="timestamp" readonly  autocomplete="off" class="layui-input">
+                    </div>
                 </div>
-                <div class="layui-input-inline" style="width: 100px;">
-                    <button type="submit" id="ok" lay-filter="formDemo" class="layui-btn layui-btn-radius layui-btn-normal"><i class="layui-icon layui-icon-search">&nbsp;&nbsp;</i><cite>查找</cite></button>
+                <div class="layui-form-item">
+                    <div class="layui-inline">
+                        <label class="layui-form-label">响应时间</label>
+                        <div class="layui-input-inline" style="width: 100px;">
+                            <input type="text" value={{costTime}} readonly  autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
                 </div>
-            </div>
+                <div class="layui-form-item">
+                    <div class="layui-inline">
+                        <label class="layui-form-label">用户ID</label>
+                        <div class="layui-input-inline" style="width: 260px;">
+                            {% if uid==0 %} 
+                                <input type="text"  name="ToSearchUid" required lay-verify="required" placeholder="请输入要查找的用户id(1-1373351)" autocomplete="off" class="layui-input">
+                            {% else %}
+                                <input type="text"  value={{uid}} id="input1" name="ToSearchUid" required lay-verify="required" placeholder="请输入要查找的用户id(1-1373351)" autocomplete="off" class="layui-input">
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <div class="layui-input-block">
+                        <button type="submit" id="ok" lay-filter="formDemo" class="layui-btn layui-btn-radius layui-btn-normal"><i class="layui-icon layui-icon-search">&nbsp;&nbsp;</i><cite>查找</cite></button>
+                        <button type="button" onclick="setnull()" class="layui-btn layui-btn-primary layui-border-red">重新输入</button>
+                    </div>
+                </div>
+            </form>
         </div>
-        <div class="layui-form-item">
-            <div class="layui-inline">
-                <label class="layui-form-label">响应时间</label>
-                <div class="layui-input-inline" style="width: 100px;">
-                    <input type="text" value={{costTime}} readonly placeholder="0" autocomplete="off" class="layui-input">
-                </div>
-                <div class="layui-form-mid">秒</div>
-            </div>
-        </div>        
-    </form>   
-	<hr class="layui-border-black">
-	<fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
-        <legend>用户信息</legend>
-	</fieldset>
-	<table align="center" class="layui-table">
-		<thead>
-			<tr>
-				<td>用户编号</td>
-				<td>年龄</td>
-				<td>性别</td>
-				<td>所在城市等级</td>
-				<td>省</td>
-                <td>市</td>
-                <td>区/县</td>
-			</tr>
-		</thead>
-        <tbody>
-            <tr>
-                <td> {{ result[0] }}</td>
-                <td> {{ result[1] }}</td>
-                <td> {{ result[2] }}</td>
-                <td> {{ result[3] }}</td>
-                <td> {{ result[4] }}</td>
-                <td> {{ result[5] }}</td>
-                <td> {{ result[6] }}</td>
-            </tr>
-        </tbody>
-	</table>
+    </div>
     <fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
-        <legend>源信息</legend>
 	</fieldset>
-        <fieldset class="layui-elem-field layui-field-title">
+    <div class="layui-card">
+        <div class="layui-card-header" style="font-size: 15px;">用户信息</div>
+        <div class="layui-card-body">
+            <table align="center" class="layui-table" lay-even>
+                <thead>
+                    <tr>
+                        <td>用户编号</td>
+                        <td>年龄</td>
+                        <td>性别</td>
+                        <td>所在城市等级</td>
+                        <td>省</td>
+                        <td>市</td>
+                        <td>区/县</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td> {{ result[0] }}</td>
+                        <td> {{ result[1] }}</td>
+                        <td> {{ result[2] }}</td>
+                        <td> {{ result[3] }}</td>
+                        <td> {{ result[4] }}</td>
+                        <td> {{ result[5] }}</td>
+                        <td> {{ result[6] }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="layui-card">
+        <div class="layui-card-header" style="font-size: 15px;">源信息</div>
+        <div class="layui-card-body">
+            <fieldset class="layui-elem-field layui-field-title">
                 <span class="layui-badge layui-bg-blue">umService</span>
                 {% if originData==0 %}
                     <div class="layui-field-box">
@@ -76,9 +91,10 @@
                         {{originData}}
                     </div>
                 {% endif %}
-        </fieldset>
+            </fieldset>
+        </div>
+    </div>
     <input type="text" id="code" value={{stateCode}} hidden>
-
 </body>
 </html>
 <script src="{{ url_for('static', filename = 'layui/layui.js') }}" charset="utf-8"></script>
@@ -93,12 +109,20 @@ layui.use('layer', function(){
         var code=$("#code").val()
         if(code==200){
             layer.msg('查找成功！', {icon: 1,time:1500});
+            changetablesize();//移动端表格大小调整
         }
         if(code==500){
             layer.msg('查找失败，该用户不存在！', {icon: 2,time:1500});
+            changetablesize();
         }
     }); 
 }); 
+//时间戳时间设置
+layui.use('util',function(){
+    var util = layui.util
+    var dateString = util.toDateString(new Date(), "yyyy-MM-dd HH:mm:ss"); //执行转换日期格式的方法
+    $('#timestamp').val(dateString);
+})
 
 layui.use('form', function(){
     var form = layui.form;
@@ -109,6 +133,20 @@ layui.use('form', function(){
         return false;
     });
 });
+//重新输入按钮的功能
+function setnull(){
+    $("#input1").val('');
+};
+function changetablesize(){
+    var width=$(window).width();
+    if(width<500){
+        $(".layui-table").attr("lay-size","sm");
+    }else{
+        $(".layui-table").removeAttr("lay-size");
+    }
+}
 
+//监听窗口大小变化，动态改变表格大小
+window.onresize=changetablesize;
 </script>
 

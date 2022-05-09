@@ -81,27 +81,33 @@
             </li>
         </ul>
       </div>
-    <iframe frameborder="0" scrolling="yes" src="" id="aa">
-    </iframe>
-    <div class="layui-footer">
-        <!-- 底部固定区域 -->
-        <p style="padding: 1% 10%;">
-            Copyright&nbsp;©&nbsp;2022  E-Commerce Recommendation System 
-            <a href="http://52684z0q57.zicp.vip">ecrs.com</a>
-            Apache2.0  Licensed  
-        </p>
-    </div>
-    <!--div class="layui-fluid">
+    <div class="layui-fluid">
       <div class="layui-row layui-col-space15">
-        <div class="layui-col-md12">
+        <div class="layui-col-xs12">
           <div class="layui-card">
-            
-            
+            <iframe frameborder="0" scrolling="yes" style="width: 100%;" src="" id="aa">
+            </iframe>
+            <div class="layui-footer" style="line-height: 30px;text-align: center;color: #666;font-weight: 300;">
+                <!-- 底部固定区域 -->
+                <p>
+                    Copyright&nbsp;©&nbsp;2022 &nbsp;&nbsp;<a href="http://52684z0q57.zicp.vip">ecrs.com</a>&nbsp;&nbsp;Apache2.0  Licensed  
+                </p>
+                <p>
+                    <a href="https://www.paddlepaddle.org.cn/" target="_blank">PaddlePaddle飞桨</a>
+                    <a href="https://aistudio.baidu.com/aistudio/index" target="_blank">aistudio</a>
+                    <a href="https://github.com/JingyibySUTsoftware" target="_blank">github</a>
+                    <a target="_blank" href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=36010902000274" rel="nofollow"><img src="{{url_for('static', filename = 'images/gongan.png')}}">公网安备 00000000000000号</a>
+                    <a href="https://beian.miit.gov.cn/" target="_blank" rel="nofollow">ICP备00000000号</a>
+                </p>
+                <p>
+                    E-Commerce Recommendation System 
+                </p>
+            </div>
           </div>
         </div>
       </div>
     </div>
-  </div-->
+  </div>
 </div>
 <!--用于选色效果-->
 <div id='setbgcolor' style="display:none">
@@ -273,10 +279,10 @@
         $("iframe").attr("src",address);
         var frame = $("#aa");
         var frameheight = $(window).height();
-        var framewidth = $(window).width();
+        //var framewidth = $(window).width();
         console.log(frameheight);
         frame.css("height",frameheight);
-        frame.css("width",framewidth);
+        //frame.css("width",framewidth);
     });
     $(document).ready(function(){
         $("iframe").attr("src","/toStart");
