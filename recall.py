@@ -37,7 +37,7 @@ class RecallServerServicer(object):
     def __init__(self):
         #加载用户模型，用户用户特征提取
         self.uv_client = LocalPredictor()
-        self.uv_client.load_model_config("user_vector_model/serving_server_dir") 
+        self.uv_client.load_model_config("user_vector_model/serving_server_dir",use_gpu=True) 
         # milvus_host = '127.0.0.1'
         # milvus_port = '19530'
         # self.milvus_client = Milvus(milvus_host, milvus_port)

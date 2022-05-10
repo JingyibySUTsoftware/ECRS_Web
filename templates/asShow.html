@@ -7,249 +7,273 @@
 <script type="text/javascript" src="{{url_for('static', filename='js/jquery-3.3.1.min.js')}}"></script>
 </head>
 <body>
-    <div class="layui-tab layui-tab-card">
-    <ul class="layui-tab-title">
-        <li class="layui-this">老用户</li>
-        <li>新用户</li>
-    </ul>
-    <div class="layui-tab-content" >
-        <div class="layui-tab-item layui-show">
-            <form class="layui-form layui-form-pane" action="/applicationServer" method="get">
-                <div class="layui-form-item">
-                    <div class="layui-inline">
-                        <label class="layui-form-label">用户ID</label>
-                        <div class="layui-input-inline" style="width: 420px;">
-                            {% if uid==0 %} 
-                                <input type="text"  name="ToSearchUid" required lay-verify="required" placeholder="请输入用户id(1-1373351)" autocomplete="off" class="layui-input">
-                            {% else %}
-                                <input type="text"  value={{uid}}  name="ToSearchUid" required placeholder="请输入用户id(1-1373351)" lay-verify="required" autocomplete="off" class="layui-input">
-                            {% endif %}
-                        </div>
-                        <div class="layui-input-inline" style="width: 100px;">
-                            <button type="submit" id="ok" lay-filter="formDemo" class="layui-btn layui-btn-radius layui-btn-normal"><i class="layui-icon layui-icon-search">&nbsp;&nbsp;</i><cite>提交</cite></button>
-                        </div>
-                    </div>
-                </div>
-                <div class="layui-form-item">
-                    <div class="layui-inline">
-                        <label class="layui-form-label">响应时间</label>
-                        <div class="layui-input-inline" style="width: 100px;">
-                            <input type="text" value={{costTime}} readonly placeholder="0" autocomplete="off" class="layui-input">
-                        </div>
-                        <div class="layui-form-mid">秒</div>
+    <fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
+    </fieldset>
+    <div class="layui-tab layui-tab-brief" lay-filter="demo">
+        <ul class="layui-tab-title">
+            <li class="layui-this">老用户</li>
+            <li>新用户</li>
+        </ul>
+        <div class="layui-tab-content" >
+            <div class="layui-tab-item layui-show">
+                <div class="layui-card">
+                    <div class="layui-card-header"></div>
+                    <div class="layui-card-body">
+                        <form class="layui-form layui-form-pane" action="/applicationServer" method="get">
+                            <div class="layui-form-item">
+                                <label class="layui-form-label">时间戳</label>
+                                <div class="layui-input-inline" style="width: 150px;">
+                                    <input type="text" id="timestamp" readonly  autocomplete="off" class="layui-input">
+                                </div>
+                            </div>
+                            <div class="layui-form-item">
+                                <div class="layui-inline">
+                                    <label class="layui-form-label">响应时间</label>
+                                    <div class="layui-input-inline" style="width: 100px;">
+                                        <input type="text" value={{costTime}} readonly  autocomplete="off" class="layui-input">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="layui-form-item">
+                                <div class="layui-inline">
+                                    <label class="layui-form-label">用户ID</label>
+                                    <div class="layui-input-inline" style="width: 420px;">
+                                        {% if uid==0 %} 
+                                            <input type="text" id="input1" name="ToSearchUid" required lay-verify="required" placeholder="请输入用户id(1-1373351)" autocomplete="off" class="layui-input">
+                                        {% else %}
+                                            <input type="text" id="input1" value={{uid}}  name="ToSearchUid" required placeholder="请输入用户id(1-1373351)" lay-verify="required" autocomplete="off" class="layui-input">
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="layui-form-item">
+                                <div class="layui-input-block">
+                                    <button type="submit" id="ok" lay-filter="formDemo" class="layui-btn layui-btn-radius layui-btn-normal"><i class="layui-icon layui-icon-search">&nbsp;&nbsp;</i><cite>提交</cite></button>
+                                    <button type="button" onclick="setnull()" class="layui-btn layui-btn-primary layui-border-red">重新输入</button>
+                                </div>
+                            </div>        
+                        </form>
                     </div>
                 </div>        
-            </form>
-            <fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
-                <legend>推荐列表</legend>
-	        </fieldset>
-            <table class="layui-hide" id="Info"></table>
-            <fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
-                <legend>源信息</legend>
-            </fieldset>
-                <fieldset class="layui-elem-field layui-field-title">
-                        <span class="layui-badge layui-bg-blue">ApplicationService</span>
-                        {% if originData==0 %}
-                            <div class="layui-field-box">
-                                这里展示的是服务器端传来的原始数据
-                            </div>
-                        {% else %}
-                            <div class="layui-field-box">
-                                {{originData}}
-                            </div>
-                        {% endif %}
-            </fieldset>
-            <input type="text" id="code" value={{stateCode}} hidden>    
-        </div>
-        <div class="layui-tab-item">
-            <form class="layui-form" action="/applicationServer" method="post">
-                <div class="layui-form-item">
-                    <label class="layui-form-label">年龄</label>
-                    <div class="layui-input-inline">
-                        <select id="agesel" name="age" lay-verify="required">
-                            <option value=""></option>
-                            {% if ageValue=='1' %}
-                            <option value="1"selected>18岁以下</option>
-                            {% else %}
-                            <option value="1">18岁以下</option>
-                            {%endif%}
-                            {% if ageValue=='2' %}
-                            <option value="2" selected >18~24岁</option>
-                            {% else %}
-                            <option value="2">18~24岁</option>
-                            {%endif%}
-                            {% if ageValue=='3' %}
-                            <option value="3" selected >25~34岁</option>
-                            {% else %}
-                            <option value="3">25~34岁</option>
-                            {%endif%}
-                            {% if ageValue=='4' %}
-                            <option value="4" selected >35~44岁</option>
-                            {% else %}
-                            <option value="4">35~44岁</option>
-                            {%endif%}
-                            {% if ageValue=='5' %}
-                            <option value="5" selected >45~54岁</option>
-                            {% else %}
-                            <option value="5">45~54岁</option>
-                            {%endif%}
-                            {% if ageValue=='6' %}
-                            <option value="6" selected>55岁以上</option>
-                            {% else %}
-                            <option value="6">55岁以上</option>
-                            {%endif%}
-                        </select>
+                <fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
+                </fieldset>
+                <div class="layui-card">
+                    <div class="layui-card-header" style="font-size: 18px;">推荐列表</div>
+                    <div class="layui-card-body">
+                        <table class="layui-hide" id="Info"></table>
                     </div>
-                    <div class="layui-form-mid layui-word-aux">各个年龄段区间描述仅供参考</div>
-                </div>
-                <div class="layui-form-item">
-                    <label class="layui-form-label">性别</label>
-                    <div class="layui-input-block">
-                        {% if sexValue=='0' %}
-                        <input type="radio" name="sex" value="0" title="男" checked>
-                        {% else %}
-                        <input type="radio" name="sex" value="0" title="男">
-                        {% endif %}
-                        {% if sexValue=='1' %}
-                        <input type="radio" name="sex" value="1" title="女" checked>
-                        {% else %}
-                        <input type="radio" name="sex" value="1" title="女">
-                        {% endif %}
-                        {% if sexValue=='2' %}
-                        <input type="radio" name="sex" value="2" title="保密" checked>
-                        {% else %}
-                        <input type="radio" name="sex" value="2" title="保密">
-                        {% endif %}
+                </div>        
+                <div class="layui-card">
+                    <div class="layui-card-header" style="font-size: 18px;">源信息</div>
+                    <div class="layui-card-body">
+                        <fieldset class="layui-elem-field layui-field-title">
+                            <span class="layui-badge layui-bg-blue">ApplicationService</span>
+                            {% if originData==0 %}
+                                <div class="layui-field-box">
+                                    这里展示的是服务器端传来的原始数据
+                                </div>
+                            {% else %}
+                                <div class="layui-field-box">
+                                    {{originData}}
+                                </div>
+                            {% endif %}
+                        </fieldset>
                     </div>
+                </div>  
+                <input type="text" id="code" value={{stateCode}} hidden>    
+            </div>
+            <div class="layui-tab-item">
+                <div class="layui-card">
+                    <div class="layui-card-header"></div>
+                    <div class="layui-card-body">
+                        <form class="layui-form" action="/applicationServer" method="post">
+                                <div class="layui-form-item">
+                                    <label class="layui-form-label">时间戳</label>
+                                    <div class="layui-input-inline" style="width: 150px;">
+                                        <input type="text" id="timestamp2" readonly  autocomplete="off" class="layui-input">
+                                    </div>
+                                </div>
+                                <div class="layui-form-item">
+                                    <div class="layui-inline">
+                                        <label class="layui-form-label">响应时间</label>
+                                        <div class="layui-input-inline" style="width: 100px;">
+                                            <input type="text" value={{costTime2}} readonly placeholder="0" autocomplete="off" class="layui-input">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="layui-form-item">
+                                    <label class="layui-form-label">年龄</label>
+                                    <div class="layui-input-inline">
+                                        <select id="agesel" name="age" lay-verify="required">
+                                            <option value=""></option>
+                                            {% if ageValue=='1' %}
+                                            <option value="1"selected>18岁以下</option>
+                                            {% else %}
+                                            <option value="1">18岁以下</option>
+                                            {%endif%}
+                                            {% if ageValue=='2' %}
+                                            <option value="2" selected >18~24岁</option>
+                                            {% else %}
+                                            <option value="2">18~24岁</option>
+                                            {%endif%}
+                                            {% if ageValue=='3' %}
+                                            <option value="3" selected >25~34岁</option>
+                                            {% else %}
+                                            <option value="3">25~34岁</option>
+                                            {%endif%}
+                                            {% if ageValue=='4' %}
+                                            <option value="4" selected >35~44岁</option>
+                                            {% else %}
+                                            <option value="4">35~44岁</option>
+                                            {%endif%}
+                                            {% if ageValue=='5' %}
+                                            <option value="5" selected >45~54岁</option>
+                                            {% else %}
+                                            <option value="5">45~54岁</option>
+                                            {%endif%}
+                                            {% if ageValue=='6' %}
+                                            <option value="6" selected>55岁以上</option>
+                                            {% else %}
+                                            <option value="6">55岁以上</option>
+                                            {%endif%}
+                                        </select>
+                                    </div>
+                                    <div class="layui-form-mid layui-word-aux">各个年龄段区间描述仅供参考</div>
+                                </div>
+                                <div class="layui-form-item">
+                                    <label class="layui-form-label">性别</label>
+                                    <div class="layui-input-block">
+                                        {% if sexValue=='0' %}
+                                        <input type="radio" name="sex" value="0" title="男" checked>
+                                        {% else %}
+                                        <input type="radio" name="sex" value="0" title="男">
+                                        {% endif %}
+                                        {% if sexValue=='1' %}
+                                        <input type="radio" name="sex" value="1" title="女" checked>
+                                        {% else %}
+                                        <input type="radio" name="sex" value="1" title="女">
+                                        {% endif %}
+                                        {% if sexValue=='2' %}
+                                        <input type="radio" name="sex" value="2" title="保密" checked>
+                                        {% else %}
+                                        <input type="radio" name="sex" value="2" title="保密">
+                                        {% endif %}
+                                    </div>
+                                </div>
+                                <div class="layui-form-item">
+                                    <label class="layui-form-label">城市等级</label>
+                                    <div class="layui-input-inline">
+                                        <select  id="citylev" name="city_level" lay-verify="required">
+                                            <option value=""></option>
+                                            {% if cityLevelValue=='1' %}
+                                            <option value="1" selected>一线城市</option>
+                                            {% else %}
+                                            <option value="1">一线城市</option>
+                                            {% endif %}
+                                            {% if cityLevelValue=='2' %}
+                                            <option value="2" selected>二线城市</option>
+                                            {% else %}
+                                            <option value="2">二线城市</option>
+                                            {% endif %}
+                                            {% if cityLevelValue=='3' %}
+                                            <option value="3" selected>三线城市</option>
+                                            {% else %}
+                                            <option value="3">三线城市</option>
+                                            {% endif %}
+                                            {% if cityLevelValue=='4' %}
+                                            <option value="4" selected>四线城市</option>
+                                            {% else %}
+                                            <option value="4">四线城市</option>
+                                            {% endif %}
+                                            {% if cityLevelValue=='5' %}
+                                            <option value="5" selected>五线城市</option>
+                                            {% else %}
+                                            <option value="5">五线城市</option>
+                                            {% endif %}
+                                            {% if cityLevelValue=='6' %}
+                                            <option value="6" selected>六线城市</option>
+                                            {% else %}
+                                            <option value="6">六线城市</option>
+                                            {% endif %}
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="layui-form-item">
+                                <label class="layui-form-label">所在省</label>
+                                <div class="layui-input-inline">
+                                    {% if provinceVal==0 %}
+                                        <input type="text" name="province" required lay-verify="required" placeholder="请输入省份编号" autocomplete="off" class="layui-input">
+                                    {% else %}
+                                        <input type="text" name="province" value={{provinceVal}} required lay-verify="required" placeholder="请输入省份编号" autocomplete="off" class="layui-input">
+                                    {% endif %}
+                                </div>
+                                    <div class="layui-form-mid layui-word-aux">参考范围:1~31</div>
+                                </div>
+                                <div class="layui-form-item">
+                                <label class="layui-form-label">所在城市</label>
+                                <div class="layui-input-inline">
+                                    {% if cityVal==0 %}
+                                        <input type="text" name="city" required lay-verify="required" placeholder="请输入城市编号" autocomplete="off" class="layui-input">
+                                    {% else %}
+                                        <input type="text" name="city" value={{cityVal}} required lay-verify="required" placeholder="请输入城市编号" autocomplete="off" class="layui-input">
+                                    {% endif %}
+                                </div>
+                                    <div class="layui-form-mid layui-word-aux">参考输入:348、204、174、119、283...</div>
+                                </div>
+                                <div class="layui-form-item">
+                                <label class="layui-form-label">所在县/区</label>
+                                <div class="layui-input-inline">
+                                    {% if countryVal==0 %}
+                                        <input type="text" name="country" required lay-verify="required" placeholder="请输入县/区编号" autocomplete="off" class="layui-input">
+                                    {% else %}    
+                                        <input type="text" name="country" value={{countryVal}} required lay-verify="required" placeholder="请输入县/区编号" autocomplete="off" class="layui-input">
+                                    {% endif %}    
+                                </div>
+                                    <div class="layui-form-mid layui-word-aux">参考输入:2136、741、187、2316、735...</div>
+                                </div>
+                                <div class="layui-form-item">
+                                    <div class="layui-input-block">
+                                        <button  id="ok" class="layui-btn layui-btn-normal" lay-submit lay-filter="formDemo2">立即提交</button>
+                                        <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+                                    </div>
+                                </div>
+                        </form>
+                    </div>    
+                </div>        
+                <fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
+                </fieldset>
+                <div class="layui-card">
+                    <div class="layui-card-header" style="font-size: 18px;">推荐列表</div>
+                    <div class="layui-card-body">
+                        <table class="layui-hide" id="Info2"></table>
+                    </div>    
                 </div>
-                <div class="layui-form-item">
-                    <label class="layui-form-label">城市等级</label>
-                    <div class="layui-input-inline">
-                        <select  id="citylev" name="city_level" lay-verify="required">
-                            <option value=""></option>
-                            {% if cityLevelValue=='1' %}
-                            <option value="1" selected>一线城市</option>
+                <div class="layui-card">
+                    <div class="layui-card-header" style="font-size: 18px;">推荐列表</div>
+                    <div class="layui-card-body">
+                        <fieldset class="layui-elem-field layui-field-title">
+                            <span class="layui-badge layui-bg-blue">ApplicationService</span>
+                            {% if originData2==0 %}
+                                <div class="layui-field-box">
+                                    这里展示的是服务器端传来的原始数据
+                                </div>
                             {% else %}
-                            <option value="1">一线城市</option>
+                                <div class="layui-field-box">
+                                    {{originData2}}
+                                </div>
                             {% endif %}
-                            {% if cityLevelValue=='2' %}
-                            <option value="2" selected>二线城市</option>
-                            {% else %}
-                            <option value="2">二线城市</option>
-                            {% endif %}
-                            {% if cityLevelValue=='3' %}
-                            <option value="3" selected>三线城市</option>
-                            {% else %}
-                            <option value="3">三线城市</option>
-                            {% endif %}
-                            {% if cityLevelValue=='4' %}
-                            <option value="4" selected>四线城市</option>
-                            {% else %}
-                            <option value="4">四线城市</option>
-                            {% endif %}
-                            {% if cityLevelValue=='5' %}
-                            <option value="5" selected>五线城市</option>
-                            {% else %}
-                            <option value="5">五线城市</option>
-                            {% endif %}
-                            {% if cityLevelValue=='6' %}
-                            <option value="6" selected>六线城市</option>
-                            {% else %}
-                            <option value="6">六线城市</option>
-                            {% endif %}
-                        </select>
-                    </div>
-                </div>
-                <div class="layui-form-item">
-                <label class="layui-form-label">所在省</label>
-                <div class="layui-input-inline">
-                    {% if provinceVal==0 %}
-                        <input type="text" name="province" required lay-verify="required" placeholder="请输入省份编号" autocomplete="off" class="layui-input">
-                    {% else %}
-                        <input type="text" name="province" value={{provinceVal}} required lay-verify="required" placeholder="请输入省份编号" autocomplete="off" class="layui-input">
-                    {% endif %}
-                </div>
-                    <div class="layui-form-mid layui-word-aux">参考范围:1~31</div>
-                </div>
-                <div class="layui-form-item">
-                <label class="layui-form-label">所在城市</label>
-                <div class="layui-input-inline">
-                    {% if cityVal==0 %}
-                        <input type="text" name="city" required lay-verify="required" placeholder="请输入城市编号" autocomplete="off" class="layui-input">
-                    {% else %}
-                        <input type="text" name="city" value={{cityVal}} required lay-verify="required" placeholder="请输入城市编号" autocomplete="off" class="layui-input">
-                    {% endif %}
-                </div>
-                    <div class="layui-form-mid layui-word-aux">参考输入:348、204、174、119、283...</div>
-                </div>
-                <div class="layui-form-item">
-                <label class="layui-form-label">所在县/区</label>
-                <div class="layui-input-inline">
-                    {% if countryVal==0 %}
-                        <input type="text" name="country" required lay-verify="required" placeholder="请输入县/区编号" autocomplete="off" class="layui-input">
-                    {% else %}    
-                        <input type="text" name="country" value={{countryVal}} required lay-verify="required" placeholder="请输入县/区编号" autocomplete="off" class="layui-input">
-                    {% endif %}    
-                </div>
-                    <div class="layui-form-mid layui-word-aux">参考输入:2136、741、187、2316、735...</div>
-                </div>
-                <div class="layui-form-item">
-                    <div class="layui-input-block">
-                        <button  id="ok" class="layui-btn layui-btn-normal" lay-submit lay-filter="formDemo2">立即提交</button>
-                        <button type="reset" class="layui-btn layui-btn-primary">重置</button>
-                    </div>
-                </div>
-                <div class="layui-form-item">
-                    <div class="layui-inline">
-                        <label class="layui-form-label">响应时间</label>
-                        <div class="layui-input-inline" style="width: 100px;">
-                            <input type="text" value={{costTime2}} readonly placeholder="0" autocomplete="off" class="layui-input">
-                        </div>
-                        <div class="layui-form-mid">秒</div>
-                    </div>
-                </div>     
-            </form>
-            <fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
-                <legend>推荐列表</legend>
-	        </fieldset>
-            <table class="layui-hide" id="Info2"></table>
-            <fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
-                <legend>源信息</legend>
-            </fieldset>
-                <fieldset class="layui-elem-field layui-field-title">
-                        <span class="layui-badge layui-bg-blue">ApplicationService</span>
-                        {% if originData2==0 %}
-                            <div class="layui-field-box">
-                                这里展示的是服务器端传来的原始数据
-                            </div>
-                        {% else %}
-                            <div class="layui-field-box">
-                                {{originData2}}
-                            </div>
-                        {% endif %}
-            </fieldset>
-            <input type="text" id="code" value={{stateCode2}} hidden>
+                        </fieldset>
+                    </div>    
+                </div>          
+                <input type="text" id="code" value={{stateCode2}} hidden>
+            </div>
         </div>
     </div>
-</div>
+    
 </body>
 </html>
 <script src="{{ url_for('static', filename = 'layui/layui.js') }}" charset="utf-8"></script>
 <script type="text/javascript">
-$(document).ready(function(){
-    var sexVal=$("#sexVal").val();
-    var ageselVal=$("#ageselVal").val();
-    var citylevVal=$("#citylevVal").val();
-    if(sexVal!=-1){
-        $(':radio[name="sex"][value="'+ sexVal +'"]').prop("checked","checked");
-    }
-    if(ageselVal!=0){
-        $('#agesel option[value="' + ageselVal + '"]').attr("selected","selected");
-    }
-    if(citylev!=0){
-        $('#agesel option[value="' + citylevVal + '"]').attr("selected","selected");
-    }
-});
 layui.use('layer', function(){
     var layer = layui.layer;
     $("#ok").on("click",function(){
@@ -280,8 +304,16 @@ layui.use('form', function(){
         return true;
     });
 });
-layui.use('table', function(){
+//时间戳时间设置
+layui.use('util',function(){
+    var util = layui.util
+    var dateString = util.toDateString(new Date(), "yyyy-MM-dd HH:mm:ss"); //执行转换日期格式的方法
+    $('#timestamp').val(dateString);
+    $('#timestamp2').val(dateString);
+})
+layui.use(['table','element'], function(){
     var table = layui.table;
+    var element=layui.element;
     //var table2=$("#table2")
     //直接在js中获取flask后台传过来的值，不建议这样做有js注入风险
     var tablevalue={{result|tojson}};
@@ -291,20 +323,16 @@ layui.use('table', function(){
         elem: '#Info'
         ,title:'待推荐商品信息列表'
         ,cols: [[ //标题栏
-            {type: 'checkbox', fixed: 'left'}
-            ,{field: 'sku_id', title: '商品ID', align: 'center'}
+            {field: 'sku_id', title: '商品ID', align: 'center'}
             ,{field: 'brand', title: '品牌', align: 'center'}
             ,{field: 'shopid', title: '店铺ID', align: 'center'}
             ,{field: 'cate', title: '品类',align: 'center'}
             ,{field: 'rank_score', title: '排序得分',sort:true, align: 'center'}
         ]]
         ,toolbar:true
-        ,defaultToolbar: ['filter', 'exports', 'print']
         ,data: tablevalue
-        ,skin: 'line' //表格风格
         ,even: true
         ,page: true //是否显示分页
-        //,limits: [5, 7, 10]
         ,limit: 10 //每页默认显示的数量
     });
 
@@ -312,22 +340,27 @@ layui.use('table', function(){
         elem: '#Info2'
         ,title:'待推荐商品信息列表'
         ,cols: [[ //标题栏
-            {type: 'checkbox', fixed: 'left'}
-            ,{field: 'sku_id', title: '商品ID', align: 'center'}
+            {field: 'sku_id', title: '商品ID', align: 'center'}
             ,{field: 'brand', title: '品牌', align: 'center'}
             ,{field: 'shopid', title: '店铺ID', align: 'center'}
             ,{field: 'cate', title: '品类',align: 'center'}
             ,{field: 'rank_score', title: '排序得分',sort:true, align: 'center'}
         ]]
         ,toolbar:true
-        ,defaultToolbar: ['filter', 'exports', 'print']
         ,data: tablevalue2
-        ,skin: 'line' //表格风格
         ,even: true
         ,page: true //是否显示分页
-        //,limits: [5, 7, 10]
         ,limit: 10 //每页默认显示的数量
     });
+    //切换tab时，自动调整table的大小
+    element.on('tab(demo)', function(){
+        table.resize('Info');
+        table.resize('Info2');
+    });
 });
+//重新输入按钮的功能
+function setnull(){
+    $("#input1").val('');
+};
 </script>
 

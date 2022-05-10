@@ -1,10 +1,10 @@
-from gevent.pywsgi import WSGIServer
 from contextlib import nullcontext
 from mimetypes import init
 from optparse import Values
 import sys
 from unittest import result
 from urllib import response
+from wsgiref.simple_server import WSGIServer
 
 from requests import request
 import grpc
@@ -25,6 +25,8 @@ from flask import Flask, redirect, url_for, render_template
 from flask import request as req
 app = Flask(__name__)
 from client import get_cm,get_ums,get_recall,get_as,get_rank
+from gevent.pywsgi import WSGIServer
+
 
 #默认起始页为登录页
 @app.route('/')
@@ -57,7 +59,7 @@ def error_date():
 def toUmService():
     init_list = ['无', '无', '无', '无', '无', '无', '无']
     init_uid=0
-    init_time=0
+    init_time='无'
     init_originData=0
     init_code=100
     return render_template('umShow.html', result=init_list, uid=init_uid, costTime=init_time, originData=init_originData, stateCode=init_code)
@@ -77,7 +79,7 @@ def umService():
     values=list(dict.values())
     cost = str(end-start)
     if cost!="" and values!="":
-        return render_template('umShow.html',uid=searchid,result=values,costTime=cost,originData=response,stateCode=statedict['code'])
+        return render_template('umShow.html',uid=searchid,result=values,costTime=cost+'s',originData=response,stateCode=statedict['code'])
     else:
         return redirect(url_for('error'))
 
@@ -86,7 +88,7 @@ def umService():
 def toCmService():
     init_list = ['无', '无', '无', '无']
     init_sid = 0
-    init_time = 0
+    init_time = '无'
     init_originData = 0
     init_code = 100
     return render_template('cmShow.html', result=init_list, sku_id=init_sid, costTime=init_time, originData=init_originData, stateCode=init_code)
@@ -109,7 +111,7 @@ def cmService():
     statedict = pb2dict(cm_response.error)
     cost = str(end-start)
     if cost != "" and resultValue != "":
-        return render_template('cmShow.html', sku_id=searchid, result=resultValue, costTime=cost, originData=cm_response, stateCode=statedict['code'])
+        return render_template('cmShow.html', sku_id=searchid, result=resultValue, costTime=cost+'s', originData=cm_response, stateCode=statedict['code'])
     else:
         return redirect(url_for('error'))
 
@@ -119,7 +121,7 @@ def toRecallService():
     dict = {'nid':'无','score': '无'}
     init_list=[dict]
     init_uid = 0
-    init_time = 0
+    init_time = '无'
     init_originData = 0
     init_code = 100
     return render_template('recallShow.html', result=init_list, uid=init_uid, costTime=init_time, originData=init_originData, stateCode=init_code)
@@ -143,7 +145,7 @@ def recallService():
     statedict = pb2dict(response.error)
     cost = str(end-start)
     if cost != "" and resultValue != "":
-        return render_template('recallShow.html', uid=searchid, result=resultValue, costTime=cost, originData=response, stateCode=statedict['code'])
+        return render_template('recallShow.html', uid=searchid, result=resultValue, costTime=cost+'s', originData=response, stateCode=statedict['code'])
     else:
         return redirect(url_for('error'))
 #跳转到rank服务页面并初始化
@@ -174,7 +176,7 @@ def rankService():
     statedict = pb2dict(response.error)
     cost = str(end-start)
     if cost != "" and resultValue != "":
-        return render_template('rankShow.html', result=resultValue, costTime=cost, originData=response, stateCode=statedict['code'])
+        return render_template('rankShow.html', result=resultValue, costTime=cost+'s', originData=response, stateCode=statedict['code'])
     else:
         return redirect(url_for('error'))
 #跳转到as服务页面并初始化  
@@ -187,8 +189,8 @@ def toAService():
             'shopid': '无', 'cate': '无', 'rank_score': '无'}
     init_list2 = [dict2]
     init_uid = 0
-    init_time = 0
-    init_time2 = 0
+    init_time = '无'
+    init_time2 = '无'
     init_originData = 0
     init_originData2 = 0
     init_code = 100
@@ -230,17 +232,17 @@ def ApplicationService():
     statedict = pb2dict(response.error)
     cost = str(end-start)
     if cost != "" and resultValue != "" and req.method == 'POST':
-        return render_template('asShow.html', uid=0, result2=resultValue, costTime2=cost, 
+        return render_template('asShow.html', uid=0, result2=resultValue, costTime2=cost+'s', 
                                originData2=response, stateCode2=statedict['code'], ageValue=age, sexValue=sex,
                                cityLevelValue=city_level, provinceVal=province, cityVal=city,
-                               countryVal=country, result=[{'sku_id': '无', 'brand': '无', 'shopid': '无', 'cate': '无', 'rank_score': '无'}], costTime=0,
+                               countryVal=country, result=[{'sku_id': '无', 'brand': '无', 'shopid': '无', 'cate': '无', 'rank_score': '无'}], costTime='无',
                                originData=0, stateCode=100)
     elif cost != "" and resultValue != "" and req.method == 'GET':
-        return render_template('asShow.html', uid=searchid, result=resultValue, costTime=cost,
+        return render_template('asShow.html', uid=searchid, result=resultValue, costTime=cost+'s',
                                      originData=response, stateCode=statedict['code'], ageValue=0, sexValue=-1,
                                      cityLevelValue=0, provinceVal=0, cityVal=0,
                                countryVal=0, result2=[{'sku_id': '无', 'brand': '无','shopid': '无', 'cate': '无', 'rank_score': '无'}],
-                               costTime2=0,originData2=0,stateCode2=100)
+                               costTime2='无',originData2=0,stateCode2=100)
     else:
         return redirect(url_for('error'))
 #跳转到关于页面
@@ -274,5 +276,5 @@ def pb2dict(obj):
 if __name__ == '__main__':
     #gevent实现python异步协程
     WSGIServer(('127.0.0.1', 5001), app).serve_forever()
-    #app.run(port=5001)
+    #app.run()
     

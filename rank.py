@@ -34,7 +34,7 @@ class RankServerServicer(object):
     def __init__(self):
         #加载排序模型
         self.ctr_client = LocalPredictor()
-        self.ctr_client.load_model_config("rank_model")
+        self.ctr_client.load_model_config("rank_model",use_gpu=True)
     #处理需要输入到模型中的数据
     def process_feed_dict(self, user_info, item_infos):
         #" user_id age sex city_level province city country | sku_id brand shopid cate"

@@ -30,7 +30,7 @@
                         <label class="layui-form-label">用户ID</label>
                         <div class="layui-input-inline" style="width: 260px;">
                             {% if uid==0 %} 
-                                <input type="text"  name="ToSearchUid" required lay-verify="required" placeholder="请输入要查找的用户id(1-1373351)" autocomplete="off" class="layui-input">
+                                <input type="text" id="input1" name="ToSearchUid" required lay-verify="required" placeholder="请输入要查找的用户id(1-1373351)" autocomplete="off" class="layui-input">
                             {% else %}
                                 <input type="text"  value={{uid}} id="input1" name="ToSearchUid" required lay-verify="required" placeholder="请输入要查找的用户id(1-1373351)" autocomplete="off" class="layui-input">
                             {% endif %}
