@@ -88,7 +88,7 @@ def umService():
 def toCmService():
     init_list = ['无', '无', '无', '无']
     init_sid = 0
-    init_time = 0
+    init_time = '无'
     init_originData = 0
     init_code = 100
     return render_template('cmShow.html', result=init_list, sku_id=init_sid, costTime=init_time, originData=init_originData, stateCode=init_code)
@@ -111,7 +111,7 @@ def cmService():
     statedict = pb2dict(cm_response.error)
     cost = str(end-start)
     if cost != "" and resultValue != "":
-        return render_template('cmShow.html', sku_id=searchid, result=resultValue, costTime=cost, originData=cm_response, stateCode=statedict['code'])
+        return render_template('cmShow.html', sku_id=searchid, result=resultValue, costTime=cost+'s', originData=cm_response, stateCode=statedict['code'])
     else:
         return redirect(url_for('error'))
 
