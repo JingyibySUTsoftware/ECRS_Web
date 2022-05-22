@@ -23,25 +23,34 @@ from google.protobuf.json_format import MessageToJson, Parse
 import time
 from flask import Flask, redirect, url_for, render_template
 from flask import request as req
-app = Flask(__name__)
+from flask_cache import Cache
+import os
 from client import get_cm,get_ums,get_recall,get_as,get_rank
 from gevent.pywsgi import WSGIServer
 
+basedirs = os.path.abspath(os.path.dirname(__file__))
+basedir = basedirs + '/cache'
+app = Flask(__name__)
+cache = Cache(app, config={'CACHE_TYPE': 'filesystem', 'CACHE_DIR': basedir})#开启Flask缓存
 
 #默认起始页为登录页
 @app.route('/')
+@cache.cached(timeout=0)#timeout为0表示缓存永久有效
 def login():
     return render_template('login.html')
 
 #登录之后跳转客户端演示使用，这里不做验证任意账号皆可登录
 @app.route('/login', methods=['POST', 'GET'])
+@cache.cached(timeout=0)
 def afterlogin():
+    print('控制台输出就说明没走index缓存')
     user = req.form['username']
     #index.html仅适配PC端,newindex.html适配移动端+PC端，开发者可以自行替换体验
     return render_template('newindex.html',username=user)
 
 #引导页
 @app.route('/toStart')
+@cache.cached(timeout=0)
 def start():
     return render_template('start.html')
 
@@ -51,11 +60,17 @@ def error():
     render_template('404.html')
     
 @app.errorhandler(404)  # 传入错误码作为参数状态
-def error_date():
-    return render_template("404.html"), 404  # 返回对应的http状态码，和返回404错误的html文件
+def error_404(e):
+    return render_template("404.html"),404  # 返回对应的http状态码，和返回404错误的html文件
+
+#只要出现错误，都默认到404页面，这里我没有准备那么多的页面，您可以自由决定或者制作对应的错误页面
+@app.errorhandler(500)  
+def error_500(e):
+    return render_template("404.html"),500
 
 #跳转到um服务页面,并初始化
 @app.route('/toUm')
+@cache.cached(timeout=0)
 def toUmService():
     init_list = ['无', '无', '无', '无', '无', '无', '无']
     init_uid=0
@@ -85,6 +100,7 @@ def umService():
 
 #跳转到cm服务页面,并初始化
 @app.route('/toCm')
+@cache.cached(timeout=0)
 def toCmService():
     init_list = ['无', '无', '无', '无']
     init_sid = 0
@@ -117,6 +133,7 @@ def cmService():
 
 #跳转到recall服务页面并初始化
 @app.route('/toRecall')
+@cache.cached(timeout=0)
 def toRecallService():
     dict = {'nid':'无','score': '无'}
     init_list=[dict]
@@ -150,6 +167,7 @@ def recallService():
         return redirect(url_for('error'))
 #跳转到rank服务页面并初始化
 @app.route('/toRank')
+@cache.cached(timeout=0)
 def rankService():
     start = time.process_time()
     #rank服务需要其他模块配合执行，单独运行时，则使用以下默认参数
@@ -181,6 +199,7 @@ def rankService():
         return redirect(url_for('error'))
 #跳转到as服务页面并初始化  
 @app.route('/toAS')
+@cache.cached(timeout=0)
 def toAService():
     dict = {'sku_id': '无', 'brand': '无',
             'shopid': '无', 'cate': '无', 'rank_score': '无'}
@@ -247,6 +266,7 @@ def ApplicationService():
         return redirect(url_for('error'))
 #跳转到关于页面
 @app.route('/toabout')
+@cache.cached(timeout=0)
 def toAboutPage():
     return render_template('aboutShow.html')   
 #将message结构数据反序列化为字典格式
