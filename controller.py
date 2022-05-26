@@ -4,7 +4,6 @@ from optparse import Values
 import sys
 from unittest import result
 from urllib import response
-from wsgiref.simple_server import WSGIServer
 
 from requests import request
 import grpc
