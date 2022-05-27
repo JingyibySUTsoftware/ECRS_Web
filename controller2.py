@@ -41,9 +41,7 @@ def login():
 
 #登录之后跳转客户端演示使用，这里不做验证任意账号皆可登录
 @app.route('/login', methods=['POST', 'GET'])
-@cache.cached(timeout=0)
 def afterlogin():
-    print('控制台输出就说明没走index缓存')
     user = req.form['username']
     #index.html仅适配PC端,newindex.html适配移动端+PC端，开发者可以自行替换体验
     return render_template('newindex.html', username=user)
