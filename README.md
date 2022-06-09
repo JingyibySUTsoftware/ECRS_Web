@@ -66,12 +66,17 @@ python recall.py
 ```shell
 python rank.py
 ```
-7.启动Web应用
+7.启动应用服务
+```shell
+python as.py
+```
+8.启动Web应用
 ```shell
 python controller.py
 
 python controller2.py
 ```
+
 到这里就可以使用系统了，在浏览器访问 `http://localhost:5000`和`http://localhost:5001`即可体验使用
 如果还需要进行负载均衡可以运行Nginx，该项目中的Nginx配置内容请参考[Nginx配置](https://blog.csdn.net/weixin_44524687/article/details/125210575)
 如果您配置了Nginx，则在浏览器中访问 `http://loclhost:5158`使用本系统
