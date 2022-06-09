@@ -3,14 +3,21 @@
 ### 项目简介
 #### 技术栈
 >项目用到的技术如下：
-语言：`Python3` `Java`
-Web端：`Layui`,`Flask`,`Nginx`,`Gevent`，`Flask_Cache`
-模型训练： `PaddleRec` , `PaddlePaddle` 
-深度学习模型:`DSSM`, `DeepFM`
-向量召回：`milvus`
-数据存储： `Redis` 
-模型推理： `PaddleServing`
-模块通信：`gRPC`,`protobuf`
+>语言：`Python3` `Java`
+>
+>Web端：`Layui`,`Flask`,`Nginx`,`Gevent`，`Flask_Cache`
+>
+>模型训练： `PaddleRec` , `PaddlePaddle` 
+>
+>深度学习模型:`DSSM`, `DeepFM`
+>
+>向量召回：`milvus`
+>
+>数据存储： `Redis` 
+>
+>模型推理： `PaddleServing
+>`
+>模块通信：`gRPC`,`protobuf`
 
 #### 快速开始
 ##### 项目部署依赖
