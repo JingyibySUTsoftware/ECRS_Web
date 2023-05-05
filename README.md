@@ -133,7 +133,12 @@ python controller2.py
 
 
 #### 模型和数据文件
-受限于文件大小，本项目并未上传模型和数据文件。在训练本项目的模型文件时，做了二分类和逻辑回归两种实验条件下的训练，模型最终在测试集上的结果如下：
+受限于文件大小，本项目并未上传模型和数据文件。
+如需要请到以下链接获取
+模型：链接：https://pan.baidu.com/s/1qZoFnWGLWkzrUKLHbE_c6g  提取码：t2bb 
+数据：https://aistudio.baidu.com/aistudio/datasetdetail/6458
+
+在训练本项目的模型文件时，做了二分类和逻辑回归两种实验条件下的训练，模型最终在测试集上的结果如下：
 
 二分类
 |模型|	Total|	Correct|	ACC|	AUC|
